@@ -98,7 +98,7 @@ public class PowerOutage {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append(String.format("%4d %20s %20s %2d %8d",dataInizio.getYear(),dataInizio.toString(),dataFine.toString(),nOre,personeAffette));
+		sb.append(String.format("%4d %18s %20s %2d %8d",dataInizio.getYear(),dataInizio.toString(),dataFine.toString(),nOre,personeAffette));
 		return sb.toString();
 	}
 	

@@ -46,11 +46,8 @@ public class FXMLController {
     	String oreStringa = txtHours.getText();
     	String anniStringa = txtYears.getText();
     	Nerc nercScelto = cmbNerc.getValue();
-    	if(nercScelto.equals(null)) {
-    		txtResult.appendText("ERRORE:scelgliere Nerc");
-    		return;
-    	}
-    	if(isValid(oreStringa,anniStringa)) {
+
+    	if(isValid(oreStringa,anniStringa, nercScelto)) {
     		int ore = Integer.parseInt(oreStringa);
     		int anni = Integer.parseInt(anniStringa);
     		List <PowerOutage> listaGuasti = model.getWorstCase(nercScelto, anni, ore);
@@ -63,20 +60,33 @@ public class FXMLController {
     	}
     }
 
-    private boolean isValid(String oreStringa,String anniStringa) {
-		try {
+    private boolean isValid(String oreStringa,String anniStringa,Nerc nerc) {
+
+    	boolean check = true;
+		if(nerc==null) {
+			txtResult.appendText("ERRORE: scelgliere Nerc\n");
+			check = false;
+		}
+    	try {
+			if(oreStringa.equals(null)) {
+				throw new NumberFormatException();
+			}
 			int numero = Integer.parseInt(oreStringa);
 		}catch(NumberFormatException nfe) {
-			txtResult.appendText("ERRORE: inserire ore in formato corretto");
+			txtResult.appendText("ERRORE: inserire ore in formato corretto\n");
+			check = false;
 		}
 		
 		try {
+			if(anniStringa.equals(null)) {
+				throw new NumberFormatException();
+			}
 			Integer.parseInt(anniStringa);
-			return true;
 		}catch(NumberFormatException nfe) {
 			txtResult.appendText("ERRORE: inserire anno nel formato corretto");
+			check = false;
 		}
-		return false;
+		return check;
 	}
 
 	@FXML // This method is called by the FXMLLoader when initialization is complete
